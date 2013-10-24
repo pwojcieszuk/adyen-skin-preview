@@ -1,0 +1,16 @@
+<form id="pageform" action="" method="post" onsubmit="return formValidate(this);">
+  <script type="text/javascript">
+    //<![CDATA[
+    if (notNull(document.getElementById('pageform'))) {
+      document.getElementById('pageform').setAttribute("autocomplete","off");
+    }
+    //]]>
+  </script>
+  <div id="content">
+    <div id="pmcontent">
+
+      {{>adyen_payment_fields}}
+
+    </div>
+  </div>
+</form>
