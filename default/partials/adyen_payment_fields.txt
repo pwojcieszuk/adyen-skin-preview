@@ -89,8 +89,8 @@ function show(detail, actionURL, group, brandCode) {
 
 //]]>
 </script>
-<script type="text/javascript" src="./adyen_kreditkard_files/animatedcollapse.js"></script>
-<script type="text/javascript" src="./adyen_kreditkard_files/cc.js"></script>
+<script type="text/javascript" src="/js/animatedcollapse.js"></script>
+<script type="text/javascript" src="/js/cc.js"></script>
   <input type="hidden" id="displayGroup" name="displayGroup" value="card">
 <h2 id="stageheader">Geben Sie Ihre Kreditkartendaten ein:</h2>
 
@@ -269,7 +269,7 @@ errorMessages["card"]["generic"] = "Bitte tragen Sie Ihre Kartendaten ein";
         card_subVariantExtrasPhrase['visadankort'] = "";
             
     
-  var baseURL = "/hpp/";
+  var baseURL = "/hpp";
   if(baseURL.indexOf(";jsession") != -1) {
     baseURL = baseURL.substr(0,baseURL.indexOf(";jsession"));
   }
@@ -479,15 +479,15 @@ errorMessages["card"]["generic"] = "Bitte tragen Sie Ihre Kartendaten ein";
           </td>
     <td class="mid">
         <div style="height: 25px" id="cclogo">
-          <img alt="" id="cclogo0" style="display: inline;" class="mid" src="./adyen_kreditkard_files/amex_small.png">
-          <img alt="" id="cclogo1" style="display: inline;" class="mid" src="./adyen_kreditkard_files/mc_small.png">
-          <img alt="" id="cclogo2" style="display: inline;" class="mid" src="./adyen_kreditkard_files/visa_small.png">
-          <img alt="" id="cclogo3" style="display: none" class="mid" src="./adyen_kreditkard_files/unknown_small.png">
-          <img alt="" id="cclogo4" style="display: none" class="mid" src="./adyen_kreditkard_files/unknown_small.png">
-          <img alt="" id="cclogo5" style="display: none" class="mid" src="./adyen_kreditkard_files/unknown_small.png">
-          <img alt="" id="cclogo6" style="display: none" class="mid" src="./adyen_kreditkard_files/unknown_small.png">
-          <img alt="" id="cclogo7" style="display: none" class="mid" src="./adyen_kreditkard_files/unknown_small.png">
-          <img alt="" id="cclogo8" style="display: none" class="mid" src="./adyen_kreditkard_files/unknown_small.png">
+          <img alt="" id="cclogo0" style="display: inline;" class="mid" src="/img/pm/amex_small.png">
+          <img alt="" id="cclogo1" style="display: inline;" class="mid" src="/img/pm/mc_small.png">
+          <img alt="" id="cclogo2" style="display: inline;" class="mid" src="/img/pm/visa_small.png">
+          <img alt="" id="cclogo3" style="display: none" class="mid" src="/img/pm/unknown_small.png">
+          <img alt="" id="cclogo4" style="display: none" class="mid" src="/img/pm/unknown_small.png">
+          <img alt="" id="cclogo5" style="display: none" class="mid" src="/img/pm/unknown_small.png">
+          <img alt="" id="cclogo6" style="display: none" class="mid" src="/img/pm/unknown_small.png">
+          <img alt="" id="cclogo7" style="display: none" class="mid" src="/img/pm/unknown_small.png">
+          <img alt="" id="cclogo8" style="display: none" class="mid" src="/img/pm/unknown_small.png">
           <script type="text/javascript">
             setCardBrand(null, false, 'card', card_types, card_logos);
           </script>
