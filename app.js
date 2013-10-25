@@ -25,29 +25,31 @@ app.use(app.router);
 app.use(express.static(path.join(__dirname, 'views/skin')));
 app.use(express.static(path.join(__dirname, 'default')));
 
-// Register partials
-var partials = "./views/skin/";
-fs.readdirSync(partials).forEach(function (dir) {
-	var dirname = path.join(partials, dir);
-    fs.readdirSync(dirname).forEach(function (file) {
-	    var source = fs.readFileSync(path.join(dirname, file), "utf8");
+
+/*
+*	registers handkebars partials from .txt files in a directory
+*   not very bulletproof
+*/
+var getPartialsFromDir = function (dirpath) {
+	fs.readdirSync(dirpath).forEach(function (file) {
+	    var source = fs.readFileSync(path.join(dirpath, file), "utf8");
 	    var regex = /(.+)\.txt/;
 	    if (regex.exec(file)) {
 	    	partial = regex.exec(file).pop();
 	    	Handlebars.registerPartial(partial, source);
 	    }
 	});
+};
+
+// Register partials
+var partials = "./views/skin/";
+fs.readdirSync(partials).forEach(function (dir) {
+	var dirpath = path.join(partials, dir);
+	getPartialsFromDir(dirpath);
 });
 
 var partials = "./default/partials";
-fs.readdirSync(partials).forEach(function (file) {
-    var source = fs.readFileSync(path.join(partials, file), "utf8");
-    var regex = /(.+)\.txt/;
-    if (regex.exec(file)) {
-    	partial = regex.exec(file).pop();
-    	Handlebars.registerPartial(partial, source);
-    }
-});
+getPartialsFromDir(partials);
 
 // development only
 if ('development' == app.get('env')) {

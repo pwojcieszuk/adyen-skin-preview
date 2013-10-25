@@ -1,60 +1,39 @@
-@font-face {
-	/* This declaration targets Internet Explorer */
-	font-family: 'FuturaPTCondBook';
-	src: url('ftn47-webfont.eot');
-}
-
-@font-face {
-	/* This declaration targets everything else */
-	font-family: 'FuturaPTCondBook';
-	src: url(//:) format('no404'), url('ftn47-webfont.woff') format('woff'), url('ftn47-webfont.ttf') format('truetype'), url('ftn47-webfont.svg#webfont9UHJOZ3a') format('svg');
-	font-weight: normal;
-	font-style: normal;
-}
-a:hover, a:active, a:focus {
-  outline: 0;
-}
+@import url('logo-gloss.css');
 
 html {
 	height: 100%;
 	max-height: 100%;
-	font-size: 0.75em;
-	font-family: 'Trebuchet MS', tahoma, verdana, arial, sans-serif;
+	font-size: 13px;
+	font-family: 'PT Sans',Helvetica,Arial,sans-serif;
 }
 
 body {
-	background:url("../img/bg.png") top center repeat-y;
-	color:#432a1f;
+	background: #fff url("../img/top-background.png") top repeat-x;
+	color: #333;
 }
 
 /* Main Elements */
+#container {
+	margin: 0 auto;
+	width: 700px;
+}
+
 #logoheader {
-	height: 90px;
-	background: url("../img/top.png") no-repeat;
+	height: 100px;
+	background: url("../img/Adyen_logo.png") left 20px no-repeat;
 }
 
 #content {
-	padding: 5px;
-	margin-left: 50px;
-	margin-right: 50px;
-	width:977px;
-	margin:0 auto;
 }
 
 #pmcontent {
-	margin-top: 5px;
-	margin-bottom: 0px;
-	padding: 6px 12px;
+	margin-top: 10px;
 }
 
 #foot {
 	background-color: white;
 	padding: 5px;
 	padding-top: 0px;
-	margin-left: 50px;
-	margin-right: 50px;
-	width:977px;
-	margin:0 auto;
 }
 
 #footc {
@@ -70,7 +49,7 @@ body {
 #nextstep {
 	font-weight: bold;
 	height: 22px;
-	color: #fff;
+	color: #696969;
 	font-size: 1.1em;
 }
 
@@ -78,12 +57,12 @@ body {
 	text-align: center;
 	padding-top: 4px;
 	padding-bottom: 2px;
-	background-color: #999;
-	display:none;
 }
 
 .popupMsg {
 	display: none;
+	border: 1px solid #666;
+	background-color: #eee;
 	margin-bottom: 5px;
 	margin-right: 10px;
 	margin-left: 10px;
@@ -91,7 +70,8 @@ body {
 }
 
 .popupMsgOPP {
-	position: absolute; 
+	position: relative; 
+	top: -155px; 
 	margin-left: 0px;
 	z-index: 10;
 }
@@ -103,14 +83,11 @@ body {
 }
 
 #content h2 {
-	color: #91c701;
-	padding-top: 6px;
+	color: #696969;
+	padding-top: 16px;
 	font-size: 24px;
-	font-weight: bold;
-	margin-top: 0.5em;
-	margin-bottom: 0.8em;
-	font-family:FuturaPTCondBook,MyriadPro-Cond,"Myriad Pro Condensed","Futura Condensed Medium";
-	margin-left:100px;
+	font-weight: normal;
+	margin-bottom: 36px;
 }
 
 #content h3 {
@@ -125,45 +102,32 @@ body {
 	font-family: courier, monospace;
 	font-size: 1em;
 }
-#paymentMethods {
-	background:#fff4c8;
-	-moz-border-radius: 5px;
-	border-radius: 5px;
-	border: 1px solid #ffd838;
-	width:740px;
-	margin:0 auto;
-	margin-top:40px;
-	margin-bottom:40px;
-}
-#displayAmount {
-	margin-left:100px;
-	font-size:14px;
-	font-weight:bold;
-}
 
 .pmmdetails {
 	padding-left: 80px;
 }
-#pmmdetails-card {
-	min-height:250px;
-}
+
 .fieldSubHeader {
 	font-weight:bold;
 	margin-bottom:0.5em;
 	margin-top:0.5em;
 }
 
+#displayAmount {
+	font-weight: bold;
+	font-size: 14px;
+	margin-bottom: 20px;
+}
+
 /* Table */
 table.basetable {
 	margin-left: 5px;
+	width: 500px;
 }
 
 table.basetable td {
 	padding-bottom: 0.6em;
 	padding-right: 0.6em;
-}
-td.mid {
-	/*margin-left:50px;*/
 }
 
 /* Order Data Layout */
@@ -183,39 +147,32 @@ table.od th {
 /* Image Buttons (Payment Methods) */
 
 .imgB {
-	background-repeat: no-repeat;
+	width: 158px;
+	height: 32px;
+	padding: 0;
+	border: 0;
+	background: transparent url("../img/bg_buttons.png") no-repeat left 0px;
+	overflow: hidden;
+	color: #444;
+	cursor: pointer; /* hand-shaped cursor */
+	cursor: hand; /* for IE 5.x */
+	font-weight: bold;
+	font-size: 1.2em;
+	outline: none;
 }
 
-.imgB:hover, .imgB:active, .footerB:hover, .footerB:active {
+.imgB:hover, .imgB:active {
+	color: #3d892e;
 }
-#mainBack {
-	background: transparent url('../img/button_zummenue.png') no-repeat 0 0;
-	text-align: left;
-	padding-left: 38px;
-	width: 128px;
-	height:35px;
-	padding-top:5px;
-	text-transform: uppercase;
-	font-family: FuturaPTCondBook, MyriadPro-Cond, "Myriad Pro Condensed", "Futura Condensed Medium";
-	font-size: 1.85em;
-	color: #857973;
-	cursor:pointer;
-	border:none;
-}
-#mainBack:hover {
-	background: transparent url('../img/button_zummenue.png') no-repeat 0 -77px;
-	color:#fff;
 
-}
 .pmB {
+	width: 400px;
+	height: 42px;
+	padding-left: 85px;
+	text-align: left;
+	margin-bottom: 6px;
+	font-size: 1.1em;
 	background-color: transparent !important;
-	font-size:1.1em;
-	margin-bottom:6px;
-	padding-left:85px;
-	text-align:left;
-	width:238px;
-	border:none;
-	height:50px;
 }
 
 /* Image Buttons Footer (next/previous/pay) */
@@ -223,42 +180,52 @@ table.od th {
 #footerb1div {
 	float: left;
 	text-align: left;
-	margin: 8px 0 10px 30px;
-	clear:both;
 }
 
 #footerb2div {
 	float: right;
 	text-align: right;
-	margin: 8px 30px 0px 0px;
 }
 
-.cancelB {
-	background-position: left 0px;
+.footerB, .paySubmit, div.pmOcDetail input[type="submit"] {
+	background-color: #3C8A2E;
+	font-size: 15px;
+	padding: 6px 20px 6px;
+	font-weight: bold;
+	line-height: 1;
+	text-shadow: 0 -1px 1px rgba(0, 0, 0, 0.25);
+	display: inline-block;
+	color: white;
+	text-decoration: none;
+	-moz-border-radius: 5px;
+	-webkit-border-radius: 5px;
+	border-radius: 5px;
+	-moz-box-shadow: 0 1px 3px rgba(0,0,0,0.5);
+	-webkit-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+	border: none;
+	border-bottom: 1px solid rgba(0, 0, 0, 0.25);
+	position: relative;
+	cursor: pointer;
 }
 
-.nextB {
-	background-position: right -32px;
+.paySubmit:hover, .footerB:hover, div.pmOcDetail input[type="submit"]:hover {
+	background-color: #00AA00;
 }
 
 .backB {
-	background-position: left -96px;
-}
-
-.finishB {
-	background-position: right -64px;
+	background: #696969 !important;
 }
 
 /* Links */
 
 a {
 	text-decoration: none;
-	color: #39f
+	color: #3d892e;
 }
 
 a:visited {
 	text-decoration: none;
-	color: #39f
+	color: #3d892e;
 }
 
 /* Form elements */
@@ -269,33 +236,8 @@ input,select {
 	border: 1px solid #C3C3C3;
 	border-top-color: #7C7C7C;
 	border-bottom-color: #DDD;
-	background: url("../img/input_bg.png") 0 0 repeat-x;
-}
-input,select {
-
 }
 
-table.basetable input.paySubmitcard {
-	background: url("../img/button_lc_search.png") no-repeat scroll 0 -70px transparent;
-	display: block;
-	cursor: pointer;
-	height: 70px;
-	margin-top: 1px;
-	padding-top: 7px;
-	text-align: center;
-	text-shadow: -1px -1px 0 #5E8312;
-	width: 273px;
-	color: white;
-	font-family: FuturaPTCondBook,MyriadPro-Cond,"Myriad Pro Condensed","Futura Condensed Medium";
-	font-size: 3.1em;
-	text-transform: uppercase;
-	float: right;
-	border:none;
-	margin-right:-20px;
-}
-.paySubmitcard:hover {
-    background: url("../img/button_lc_search.png") no-repeat 0 0 transparent;
-}
 button:focus {
 	outline: none;
 }
@@ -303,71 +245,44 @@ button:focus {
 /* Validation */
 
 table.basetable .inputField {
-	-webkit-border-radius:5px;
-	-moz-border-radius:5px;
-	border-radius:5px;
-	-webkit-box-shadow:0 2px 2px #cfcfcf inset;
-	-moz-box-shadow:0 2px 2px #cfcfcf inset;
-	box-shadow:0 2px 2px #cfcfcf inset;
-	line-height:25px;
-	background:#fff;
-	border:1px solid #ebe9e8;
-	padding:3px;
-}
-table.basetable input {
-	height:19px;
-}
-table.basetable td {
-	width:200px;
-}
-table.basetable .errorField {
-	border: 1px solid #f33;
-	-webkit-border-radius:5px;
-	-moz-border-radius:5px;
-	border-radius:5px;
-	-webkit-box-shadow:0 2px 2px #cfcfcf inset;
-	-moz-box-shadow:0 2px 2px #cfcfcf inset;
-	box-shadow:0 0 2px #cfcfcf inset;
-	padding:3px;
-	line-height:25px;
-	background:#fff;
+	padding: 1px 2px 2px 2px;
 }
 
-#expiryMonth, #expiryYear {
-	-webkit-border-radius:5px 0 0 5px;
-	-moz-border-radius:5px 0 0 5px;
-	border-radius:5px 0 0 5px;
+table.basetable .errorField {
+	border: 2px solid #f33;
+	background-color: #fff3f3;
+	padding: 1px 1px 1px 1px;
 }
 
 .fieldDiv {
+	padding-right: 20px;
 	background: transparent;
-	height:25px;
-	width:250px;
 }
 
 .errorDiv {
 	background: transparent url("/hpp/img/icons/error.png") no-repeat right 3px;
+	padding-right: 20px;
 }
 
 .errorFrame {
-	width:740px;
-	margin:0 auto;
-	border-bottom:1px solid #CC0000;
+	background-color: #fff3f3;
 }
 
+/********************************************/
+/*               oneclick                   */
+/********************************************/
 .pmOc {
 	margin-bottom: 10px;
 }
 
 .pmOc div.pmOcDetail {
-	background-color: #E0E6FF;
-	border: 1px solid #CCCCFF;
+	background-color: #EEEEEE;
+	border: 1px solid #B4B4B4;
 	padding: 6px;
 	display: block;
 	margin-right: 8px;
 	margin-bottom: 8px;
-	float: left;
-	width: 162px;
+	width: 400px;
 }
 
 .pmOc div.pmOcPad {
@@ -400,6 +315,7 @@ table.basetable .errorField {
 	font-weight:bold;
 	line-height:1.3;
 	padding-top: 10px;
+	margin:4px 0 0 4px;
 }
 
 
@@ -448,6 +364,22 @@ table.basetable .errorField {
 	background-image: url(/hpp/img/arrow_down.png);
 }
 
+/* old oneclick - directdebit_NL */
+.pmOcDDNL, .pmOcDDNLHeader {
+	color: #888;
+}
+
+.pmOcDDNLHeader {
+	margin-bottom: 15px;
+	font-weight: bold;
+	font-size: 1.1em;
+}
+
+.pmOcDDNL {
+	margin-bottom: 5px;
+	letter-spacing: 2px;
+}
+
 div.pmOcDetail .fieldDiv, div.pmOcDetail .errorDiv {
 	display: inline;
 }
@@ -459,6 +391,137 @@ div.pmOcDetail input {
 div.pmOcPay {
 	text-align: right;
 }
+
+/********************************************/
+/********************************************/
+
+
+/********************************************/
+/*            new oneclick                  */
+/********************************************/
+
+.pmOcOverview {
+	margin-bottom: 10px;
+	display: block;
+}
+
+.pmOcOverview div.pmOcDetail {
+	background-color: #EEEEEE;
+	border: 1px solid #B4B4B4;
+	padding: 6px;
+	display: block;
+	margin-right: 8px;
+	margin-bottom: 8px;
+	float: left;
+	width: 278px;
+}
+
+.pmOcOverview div.pmOcDetailSummary {
+	margin: 0px;
+	padding: 0px;
+	height: 58px;
+	width: 272px;
+	clear:both;
+	font-size: 11px;
+	font-weight:normal;
+	line-height:1.3;
+	cursor: pointer;
+	color: black;
+	font-family: tahoma, verdana, arial, sans-serif;
+}
+
+.pmOcOverview div.pmOcPad {
+	height: 1px;
+	display: block;
+	clear: both;
+}
+
+.pmOcOverview div.pmOcLogo {
+	height:22px;
+	width:40px;
+	background-color: white;
+	margin: 0px;
+}
+
+.pmOcOverview div.pmOcField1 {
+	height:15px;
+	padding-top: 9px;
+	margin-left: 0px;
+}
+
+.pmOcOverview div.pmOcField2 {
+	padding-top: 0px;
+	height:15px;
+	margin-left: 0px;
+}
+
+.pmOcOverview span.pmOcFieldTitle {
+	float: left;	
+	width: 130px;
+}
+
+.ocRemoveDetail {
+	cursor: pointer;
+	position: relative;
+	top: 3px;
+	left: 2px;
+}
+
+.ocNewDetailsLink {
+	cursor: pointer;
+	text-decoration: underline;
+}
+
+.ocStoredDetails {
+	font-size: 1.25em;
+}
+
+/* new oneclick - card */
+.ocCardLogo {
+	cursor: pointer;
+}
+.ocCardUpdateExpiryDate {
+
+}
+.ocCardUpdateExpiryDateLink {
+	cursor: pointer;
+	text-decoration: underline;
+}
+.cardNumberTitle {
+	width:	200px;
+}
+
+
+/* new oneclick - directdebit - generic */
+
+.ocDDAccount {
+	float:	left;
+	padding: 4px;
+}
+
+.ocDDAccountLink {
+	cursor: pointer;
+	border: 1px solid #84e33c;
+	margin: 3px 9px 3px 1px;
+	color: #999999;
+}
+
+.ocDDAccountNoLink {
+	margin: 2px 8px 2px 0px;
+	border: 2px solid #84e33c;
+}
+/* new oneclick - directdebit_NL */
+.ocDDNLAccount {}
+.ocDDNLAccountLink {}
+.ocDDNLAccountNoLink {}
+
+/* new oneclick - directdebit_BR */
+.ocDDBRAccount {}
+.ocDDBRAccountLink {}
+.ocDDBRAccountNoLink {}
+
+/********************************************/
+/********************************************/
 
 
 /* ivr specific css */
@@ -534,51 +597,21 @@ div.pmOcPay {
 .ebanking_FIText {
     padding:        5px;
 }
-ul#paymentMethods .pmBcard2 {
-	background-image: url(../img/lock.png);
-	background-position: 55px 13px;
-	margin-left:-5px;
-	text-transform:uppercase;
-	font-weight:bold;
+
+.invoicestat {
+    width: 55%;
+    border: 2px solid black;
+    font-family: courier, monospace;
+    padding: 17px 10px 17px 61px;
 }
 
-#cvcFrame {
-    background:url("../img/toolExpress_back.png") center center no-repeat;
-    margin-top: -105px;
-    margin-left: 255px;
-   /* position: absolute;*/
-    width: 245px;
-    padding:4px;
-    height:238px;
-    z-index: 100;
+.invoicestatPaid      { border-color: green; background-color: #efe; }  
+.invoicestatUnPaid    { border-color: orange; background-color: #fff5ee; } 
+.invoicestatCannotPay { border-color: red; background-color: #fee; } 
 
+.receiptNoPrint {
+	display: none;
 }
-#cvcFrame p{
-	padding:5px 18px 0;
-	font-size:10px;
-	text-align:justify;
-	line-height:12px;
-}
-#cvcFrame h3{
-	padding:38px 18px 0;
-}
-.fl {
-	margin: 0 7px 7px 0;
-}
-.errorDiv .selMonth,
-.errorDiv .selYear
-{
-	border:1px solid #FF3333;
-}
-.footer_lief {
-	background:url("../img/footer.png") center center no-repeat;
-	height: 47px;
-	width: 965px;
-	margin-bottom:15px;
-	padding-left:12px;
-	clear:both;
-}
-.endfoot {
-	text-align:center;
-	color:#857973;
+.receiptPrint {
+	display: none;
 }

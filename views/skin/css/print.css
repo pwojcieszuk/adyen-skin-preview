@@ -8,3 +8,10 @@ html {
 .imgB {
 	background: #ccc !important;
 }
+.receiptNoPrint {
+	display: none;
+}
+
+.receiptPrint {
+	display: block;
+}
