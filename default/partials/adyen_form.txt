@@ -6,11 +6,5 @@
     }
     //]]>
   </script>
-  <div id="content">
-    <div id="pmcontent">
-
       {{>adyen_payment_fields}}
-
-    </div>
-  </div>
 </form>

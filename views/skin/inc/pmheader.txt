@@ -1,2 +1,6 @@
 <div id="logoheader"></div>
 <div id="pmcontent">
+
+	<div id="lh_payment_bar">
+		<span id="bestellung">Bestellung</span>&nbsp;&gt;&nbsp;<span id="bestatigung">Bestatigung</span>
+	</div>

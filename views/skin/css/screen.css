@@ -8,26 +8,40 @@ html {
 }
 
 body {
-	background: #fff url("../img/top-background.png") top repeat-x;
+	background: #fff url("../img/bn_bg.png") center no-repeat fixed;
+	background-size: cover;
 	color: #333;
 }
 
 /* Main Elements */
 #container {
 	margin: 0 auto;
-	width: 700px;
+	width: 990px;
 }
 
 #logoheader {
 	height: 100px;
-	background: url("../img/Adyen_logo.png") left 20px no-repeat;
+	background: url("../img/bn_logo.png") 15px 20px no-repeat;
 }
 
 #content {
 }
 
 #pmcontent {
-	margin-top: 10px;
+	margin-top: 50px;
+	padding: 30px 15px;
+	background: #fff;
+}
+
+#pmcontent #lh_payment_bar span {
+	margin: 10px 0;
+}
+
+#pmcontent #lh_payment_bar {
+	width: 100%;
+	padding: 13px 0;
+	background: #ffc713;
+	text-align: center;
 }
 
 #foot {

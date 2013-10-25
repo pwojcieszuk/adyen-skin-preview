@@ -1,4 +1,4 @@
-<div id="pmcontent">    <div class="paddiv1"></div>
+<div class="paddiv1"></div>
       <script type="text/javascript">
 //<![CDATA[
 /* Form validation */
@@ -595,4 +595,3 @@ errorMessages["card"]["generic"] = "Bitte tragen Sie Ihre Kartendaten ein";
   <div id="okFrame" style="display: none;" class="popupMsg okFrame">
   <div id="okFrameMessages">
   </div>
-</div>
