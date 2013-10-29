@@ -10,52 +10,691 @@
 		<script type="text/javascript" src="/js/custom.js"></script>
 		<!--[if lt IE 7]>
 		<link rel="stylesheet" type="text/css" href="/css/screen_ie6.css" /> <![endif ]-->
-
-		<script type="text/javascript">
-	    //<![CDATA[
-	      var clientIPAddress = "127.0.0.1:3000";
-	      var config = new Array();
-	      config["pmmanimation"] = 0;
-	    //]]>
-	    </script>
 	</head>
 		<body>
 			<!-- ### inc/cheader_[locale].txt or inc/cheader.txt (fallback) ### -->
 			{{>cheader}}
-			<form id="pageform" action="" method="post" onsubmit="return formValidate(this);"> 
-				<script type="text/javascript">
-				//<![CDATA[
-				if (notNull(document.getElementById('pageform'))) {
-				document.getElementById('pageform').setAttribute("autocomplete","off"); }
-				//]]>
-				</script>
-				<div id="content">
-						<!-- ### inc/pmheader_[locale].txt or in/pmheader.txt (fallback) ### --> 
-						{{>pmheader}}
-						<div class="padDiv1"></div>
-						<!-- ==================== --> <!-- Adyen Main Content -->
-						{{>adyen_form}}
-						 <!-- ==================== -->
-						<div class="padDiv2"></div>
-						<!-- ### inc/pmfooter_[locale].txt or inc/pmfooter.txt (fallback) ### -->
-						{{>pmfooter}}
-						<!-- ### inc/customfields_[locale].txt or inc/customfields.txt (fallback) ### --> 
-				</div>
-				<div id="foot">
-					<div id="footc">
-						<div id="nextstep">
-							<div id="nextstepc">Next Step Text</div> 
+			<form id="pageform" action="completeCard.shtml" method="post" autocomplete="off" onsubmit="return formValidate(this  ,'default' );">
+      <div id="content">
+		{{>pmheader}}
+	  	<div class="paddiv1"></div>
+
+<script type="text/javascript">
+var config = {'pmmanimation': 0};
+//<![CDATA[
+/* Form validation */
+var requiredFields = new Array();
+var fieldLinks = new Array();
+var errorMessages = new Array();
+var errorAreas = new Array();
+var validationFunctions = new Array();
+var details = new Array();
+
+errorMessages["default"] = new Array();
+requiredFields["default"] = new Array();
+
+
+
+var maySubmitOnlyOnce=true;
+
+requiredFields["default"].push("brandCode");
+errorMessages["default"]["brandCode"] = "Please enter your payment details";
+errorMessages["default"]["submitonce"] = "Your request is being processed, please wait....";
+
+var locked = false;
+var _valFunc = new function() {};
+
+var displayAmountExtras = new Object();
+
+function show(detail, actionURL, group, brandCode) {
+
+	if(config["pmmanimation"] != 1) {
+		if(locked) { return false; }
+		locked = true;
+		setTimeout('locked=false',1000);
+	}
+	
+	if(group == "card") {
+		brandCode="brandCodeUndef";
+	}
+	
+	document.forms["pageform"].action=actionURL;
+	document.forms["pageform"].onsubmit=null;
+
+	if(document.forms["pageform"].addEventListener) {
+	  document.forms["pageform"].removeEventListener('submit',_valFunc ,false);
+	  document.forms["pageform"].addEventListener('submit',_valFunc = function(e) { 
+	    result = formValidate(document.forms["pageform"] ,group); 
+		if(result == false) {
+		  e=e||event;
+		  e.preventDefault? e.preventDefault() : e.returnValue = false; 
+		} 
+	  },false);
+	} else {
+	  document.forms["pageform"].detachEvent('onsubmit',_valFunc);
+	  document.forms["pageform"].attachEvent('onsubmit',_valFunc = function(e) { 
+		result = formValidate(document.forms["pageform"] ,group); 
+		if(result == false) {
+		  e=e||event;
+		  e.preventDefault? e.preventDefault() : e.returnValue = false; 
+		}
+	  });
+	}
+
+	document.forms["pageform"]["brandCode"].value=brandCode;
+	document.forms["pageform"]["displayGroup"].value=group;
+	document.getElementById('extraCostAmount').innerHTML = displayAmountExtras[group];
+	
+	if(detail != "") {
+    	detail.slideit();
+    	for (i = 0; i < details.length; i++) { 	
+    		if (details[i].divId != detail.divId) {
+    			details[i].slideup();
+    		}
+    	}
+	}
+	
+	// possible selection handler hook
+	var selectHandler = "select"+group+"Handler";
+	if (eval("typeof " + selectHandler + " === 'function'")) {
+		window[selectHandler](detail, actionURL, group, brandCode);
+	}
+	
+	return false;
+}
+
+
+	addOnLoad(preventEnterSubmit);
+
+
+
+//]]>
+</script>
+<script type="text/javascript" src="/hpp/js/animatedcollapse.js"></script>
+<script type="text/javascript" src="/js/cc.js"></script>
+ <input type="hidden" id="displayGroup" name="displayGroup" value="card">
+<h2 id="stageheader">Step 1: Please select your payment method</h2>
+
+<div id="displayAmount">
+ Total payment amount EUR 1.99 <span id="extraCostAmount"></span>
+</div>
+
+
+<ul id="paymentMethods">
+		
+		
+			
+<li style="list-style-type: none;">
+	 <input type="submit" name="brandName" value="Credit Card" class="imgB pmB pmBcard" onclick="return show(collapsecard, 'completeCard.shtml', 'card', 'brandCodeUndef');">
+	    <span id="pmmextracosts-card" class="pmmextracosts">
+    	    </span>
+
+	<span id="pmcarddescription" class="pmmdescription"></span>
+		<div id="pmmdetails-card" class="pmmdetails" style="overflow: hidden; visibility: visible; height: 195px;">
+		
+		<script type="text/javascript">
+			var collapsecard = new animatedcollapse("pmmdetails-card", 1000, false, false, config["pmmanimation"]==1?false:true);
+			details.push(collapsecard);
+			
+							displayAmountExtras['card'] = "";
+						
+									
+											addOnLoad(function () {
+					setTimeout("show(collapsecard, 'completeCard.shtml', 'card', 'brandCodeUndef')",100);
+				});
+										
+			if (notNull(document.getElementById('pmmform-card'))) {
+				document.getElementById('pmmform-card').setAttribute("autocomplete","off"); 
+			}
+		</script>
+		
+									<!-- useNewCardId = true, groupName = card -->
+
+<script type="text/javascript">
+//<![CDATA[
+/* Form validation */
+requiredFields["card"] = new Array();
+requiredFields["card"].push( "card.cardHolderName" );
+requiredFields["card"].push( "card.cardNumber" );
+requiredFields["card"].push( "card.expiryMonth" );
+requiredFields["card"].push( "card.expiryYear" );
+errorMessages["card"] = new Array();
+errorMessages["card"][ "card.cardHolderName" ] = "Card Holder Name missing";
+errorMessages["card"][ "card.cardNumber" ] = "Card Number invalid or missing";
+errorMessages["card"][ "card.expiryMonth" ] = "Expiry Month missing";
+errorMessages["card"][ "card.expiryYear" ] = "Expiry Year missing";
+errorMessages["card"][ "card.cvcCode" ] = "CVC/CVV/CID missing";
+errorMessages["card"]["generic"] = "Please enter your card details";
+
+
+ 										
+
+
+
+	var card_cvcinfo = new Array();
+	card_cvcinfo["mc"] =	"<h3>What is CVC?<\/h3>" + 
+	                  	"<p><img style=\"margin-right: 5px\" class=\"fl\" src=\"/hpp/img/CVC_mini.jpg\" alt=\"CVC location\" />" +
+						"The Card Validation Code (CVC) is an <i>additional<\/i> " + 
+						"three-digit security code that is printed (not embossed) on the back " +
+						"of your card.<\/p>" +
+						"<p>The CVC is an extra security measure to ensure that you are in possession of the card.<\/p><br style=\"clear: both\" />";
+	card_cvcinfo["maestro"] =	"<h3>What is CVC?<\/h3>" + 
+	                  	"<p><img style=\"margin-right: 5px\" class=\"fl\" src=\"/hpp/img/CVC_mini.jpg\" alt=\"CVC location\" />" +
+						"The Card Validation Code (CVC) is an <i>additional<\/i> " + 
+						"three-digit security code that is printed (not embossed) on the back " +
+						"of your card.<\/p>" +
+						"<p>The CVC is an extra security measure to ensure that you are in possession of the card." +
+												" " +						"<\/p><br style=\"clear: both\" />";
+	card_cvcinfo["visa"] =	"<h3>What is CVV?<\/h3>" + 
+	                  	"<p><img style=\"margin-right: 5px\" class=\"fl\" src=\"/hpp/img/CVV_mini.jpg\" alt=\"CVV location\" />" +
+						"The Card Verification Value (CVV) is an <i>additional<\/i> " + 
+						"three-digit security code that is printed (not embossed) on the back " +
+						"of your card.<\/p>" +
+						"<p>The CVV is an extra security measure to ensure that you are in possession of the card.<\/p><br style=\"clear: both\" />";
+	card_cvcinfo["amex"] =	"<h3>What is CID?<\/h3>" + 
+	                  	"<p><img style=\"margin-right: 5px\" class=\"fl\" src=\"/hpp/img/CID_mini.jpg\" alt=\"CID location\" />" +
+						"The Card IDentification (CID) is an <i>additional<\/i> " + 
+						"four-digit security code that is printed (not embossed) on the front " +
+						"of your card.<\/p>" +
+						"<p>The CID is an extra security measure to ensure that you are in possession of the card.<\/p><br style=\"clear: both\" />";
+	card_cvcinfo["card"] =	"<h3>What is CVC\/CVV\/CID?<\/h3>" + 
+	                  	"<p>The Card Security Code (CVC\/CVV\/CID) is an <i>additional<\/i> " + 
+						"three or four digit security code that is printed (not embossed) on the front or the back " +
+						"of your card.<\/p>" +
+						"<p>The CVC\/CVV\/CID is an extra security measure to ensure that you are in possession of the card.<\/p><br style=\"clear: both\" />";	
+
+	// pass these arround, instead of just using 
+	var card_types = new Array();
+	var card_logos = new Array();
+	var card_displayAmountExtras = new Array();
+	var card_extras = new Array();
+	var card_previousCardNumber ="";
+	var card_subVariantExtras = new Object();
+	var card_subVariantExtrasPhrase = new Object();
+	var card_extraCostDivId = 'pmmextracosts-card';
+	var card_originalExtraCostPhrase = document.getElementById(card_extraCostDivId).innerHTML;
+	
+	
+			card_types.push("amex");
+		card_logos.push("/img/pm/amex");
+					card_displayAmountExtras.push("");
+			card_extras.push("");
+		
+											card_subVariantExtras['amex'] = "";
+				card_subVariantExtrasPhrase['amex'] = "";
+								card_types.push("mc");
+		card_logos.push("/img/pm/mc");
+					card_displayAmountExtras.push("");
+			card_extras.push("");
+		
+											card_subVariantExtras['mcatm'] = "";
+				card_subVariantExtrasPhrase['mcatm'] = "";
+												card_subVariantExtras['mccredit'] = "";
+				card_subVariantExtrasPhrase['mccredit'] = "";
+												card_subVariantExtras['mc'] = "";
+				card_subVariantExtrasPhrase['mc'] = "";
+												card_subVariantExtras['maestro'] = "";
+				card_subVariantExtrasPhrase['maestro'] = "";
+												card_subVariantExtras['bijcard'] = "";
+				card_subVariantExtrasPhrase['bijcard'] = "";
+												card_subVariantExtras['cirrus'] = "";
+				card_subVariantExtrasPhrase['cirrus'] = "";
+												card_subVariantExtras['maestrouk'] = "";
+				card_subVariantExtrasPhrase['maestrouk'] = "";
+												card_subVariantExtras['bcmc'] = "";
+				card_subVariantExtrasPhrase['bcmc'] = "";
+												card_subVariantExtras['mcpro'] = "";
+				card_subVariantExtrasPhrase['mcpro'] = "";
+												card_subVariantExtras['mccommercialcredit'] = "";
+				card_subVariantExtrasPhrase['mccommercialcredit'] = "";
+												card_subVariantExtras['mccorporate'] = "";
+				card_subVariantExtrasPhrase['mccorporate'] = "";
+												card_subVariantExtras['mcdebit'] = "";
+				card_subVariantExtrasPhrase['mcdebit'] = "";
+								card_types.push("visa");
+		card_logos.push("/img/pm/visa");
+					card_displayAmountExtras.push("");
+			card_extras.push("");
+		
+											card_subVariantExtras['travelmoney'] = "";
+				card_subVariantExtrasPhrase['travelmoney'] = "";
+												card_subVariantExtras['visacorporate'] = "";
+				card_subVariantExtrasPhrase['visacorporate'] = "";
+												card_subVariantExtras['visabusiness'] = "";
+				card_subVariantExtrasPhrase['visabusiness'] = "";
+												card_subVariantExtras['visacredit'] = "";
+				card_subVariantExtrasPhrase['visacredit'] = "";
+												card_subVariantExtras['visahipotecario'] = "";
+				card_subVariantExtrasPhrase['visahipotecario'] = "";
+												card_subVariantExtras['visaproprietary'] = "";
+				card_subVariantExtrasPhrase['visaproprietary'] = "";
+												card_subVariantExtras['visapurchasing'] = "";
+				card_subVariantExtrasPhrase['visapurchasing'] = "";
+												card_subVariantExtras['visaclassic'] = "";
+				card_subVariantExtrasPhrase['visaclassic'] = "";
+												card_subVariantExtras['visaplatinum'] = "";
+				card_subVariantExtrasPhrase['visaplatinum'] = "";
+												card_subVariantExtras['visasignature'] = "";
+				card_subVariantExtrasPhrase['visasignature'] = "";
+												card_subVariantExtras['electron'] = "";
+				card_subVariantExtrasPhrase['electron'] = "";
+												card_subVariantExtras['visacommercialcredit'] = "";
+				card_subVariantExtrasPhrase['visacommercialcredit'] = "";
+												card_subVariantExtras['visagold'] = "";
+				card_subVariantExtrasPhrase['visagold'] = "";
+												card_subVariantExtras['visa'] = "";
+				card_subVariantExtrasPhrase['visa'] = "";
+												card_subVariantExtras['visadankort'] = "";
+				card_subVariantExtrasPhrase['visadankort'] = "";
+												card_subVariantExtras['visadebit'] = "";
+				card_subVariantExtrasPhrase['visadebit'] = "";
+						
+		
+	var baseURL = "/hpp/";
+	if(baseURL.indexOf(";jsession") != -1) {
+		baseURL = baseURL.substr(0,baseURL.indexOf(";jsession"));
+	}
+	
+	function card_validateCcNumber(e, groupName, group_types, group_logos, group_subVariantExtras, group_subVariantExtrasPhrase, dontHideErrorFrame) {
+		cardNumber = (document.getElementById( 'card.cardNumber' ).value);
+		
+		// empty card field - reset all
+		if (cardNumber.length == 0) {
+			card_previousCardNumber = cardNumber;
+			card_resetExtraCost(groupName);
+			card_setCardBrand(null, false, groupName, group_types, group_logos);
+			return;
+		}
+
+		// When editing the card (but not adding digits at the end), don't display validation error(s) and don't reformat the number
+		var l=0;
+		while(l < card_previousCardNumber.length && l < cardNumber.length) {
+			if(cardNumber[l] != card_previousCardNumber[l]) {
+				card_previousCardNumber = cardNumber;
+				return;
+			} 
+			l++;
+		}
+	
+		// remove all whitespace
+		reg = /\s+/g;
+		cardNumber = cardNumber.replace(reg,'');
+		
+		nrOfDigits = cardNumber.length;
+		if(nrOfDigits > 19){
+			card_ccNumberPresentation(false, groupName);
+			return;
+		}
+		
+		card_ccNumberPresentation(true, groupName, dontHideErrorFrame);
+		
+		baseCard = getBaseCard(cardNumber, group_types);
+		if(baseCard != null) {
+		    card_setCardBrand(baseCard, true, groupName, group_types, group_logos);
+		} else if(nrOfDigits > 4) {
+		    card_setCardBrand(null, true, groupName, group_types, group_logos);
+			card_ccNumberPresentation(false,groupName);
+		} else {
+			card_setCardBrand(null, false, groupName, group_types, group_logos);
+		}
+
+		if (nrOfDigits < 6) {
+			card_setExtraCost(baseCard, null, groupName, group_types, group_subVariantExtras, group_subVariantExtrasPhrase);
+		} else if (nrOfDigits == 6 || nrOfDigits == 9 || nrOfDigits == 12 || nrOfDigits == 16){
+			_.X("/hpp/binLookup.shtml",function(d,r){
+				if(r.status != 200 || d.indexOf('"result"') == -1) return false;
+	            var response=eval("("+d+")");
+					
+				if(typeof(response.result)=='undefined') return false;
+		
+				if (response.result == 0) {
+					lookedUpCardType = response.cardType;
+				} else {
+					lookedUpCardType = null;	
+				}
+				card_setExtraCost(baseCard, lookedUpCardType, groupName, group_types, group_subVariantExtras, group_subVariantExtrasPhrase);
+		
+				return true;
+	        }, 'bin='+cardNumber+'&'+_.Q(_.G("pageform")));
+		}
+		
+		//show value with white space after four numbers
+		result = cardNumber.replace(/(\d{4})/g, '$1 ');
+		result = result.replace(/\s+$/, ''); //remove trailing spaces
+		
+		card_previousCardNumber = result;
+		document.getElementById( 'card.cardNumber' ).value = result;
+	}
+	
+	function card_setExtraCost(selectedCard, lookedUpCard, groupName, group_types, group_subVariantExtras, group_subVariantExtrasPhrase) {
+		var extraCostDisplayed = false;
+		if (lookedUpCard != null && group_subVariantExtras[lookedUpCard] != null) {
+			document.getElementById('extraCostAmount').innerHTML = group_subVariantExtras[lookedUpCard];
+			displayAmountExtras[groupName] = group_subVariantExtras[lookedUpCard];
+			document.getElementById(card_extraCostDivId).innerHTML = group_subVariantExtrasPhrase[lookedUpCard];
+			extraCostDisplayed = true;
+		} else {
+			        	for(var i = 0; i < group_types.length; ++i) {
+    			if(selectedCard != null && group_types[i] == selectedCard.cardtype && group_subVariantExtras[selectedCard.cardtype] != null) {
+					document.getElementById('extraCostAmount').innerHTML = group_subVariantExtras[selectedCard.cardtype];
+					displayAmountExtras[groupName] = group_subVariantExtras[selectedCard.cardtype];
+					document.getElementById(card_extraCostDivId).innerHTML = group_subVariantExtrasPhrase[selectedCard.cardtype];
+					extraCostDisplayed = true;
+    			}
+        	}
+		}
+		
+		if (!extraCostDisplayed) {
+			card_resetExtraCost(groupName);
+		}
+	}
+	
+	function card_resetExtraCost(groupName) {
+		// groupName is not used anymore
+		displayAmountExtras['card'] = "";
+		document.getElementById('extraCostAmount').innerHTML = "";
+		document.getElementById(card_extraCostDivId).innerHTML = card_originalExtraCostPhrase;
+	}
+	
+	function card_setCardBrand(selectedCard, greyInactive, groupName, group_types, group_logos) {
+
+		for(var i = 0; i < group_types.length; ++i) {
+		    var imageId =  'card.cclogo'  + i;
+			if(selectedCard != null && group_types[i] == selectedCard.cardtype) {
+				document.getElementById(imageId).src=baseURL + group_logos[i] + "_small.png";
+			} else {
+			    if(greyInactive) {
+				  document.getElementById(imageId).src=baseURL + group_logos[i] + "_small_grey.png";
+				} else {
+				  document.getElementById(imageId).src=baseURL + group_logos[i] + "_small.png";
+				}
+			}
+			document.getElementById(imageId).style.display="inline";
+		}
+		
+		card_setCvcElement(selectedCard != null ? selectedCard.cardtype : null, groupName);
+	}
+	
+	function card_setCvcElement(selectedCardType, groupName) {
+		// for tokenising, the cvc element is not displayed, so check before using it
+		var cvcCodeElem = document.getElementById( 'card.cvcCode' );
+		if(selectedCardType != null && cvcCodeElem != null) {
+		  if(selectedCardType == "amex") {
+		 	cvcCodeElem.maxLength = 4;
+			document.getElementById( 'card.cvcName' ).innerHTML = "CID";
+			document.getElementById( 'card.cvcWhatIs' ).innerHTML = "What is CID?";
+			document.getElementById( 'card.cvcFrame' ).innerHTML = card_cvcinfo["amex"];
+		  } else if (selectedCardType == "visa" || selectedCardType == "electron") {
+		  	cvcCodeElem.maxLength = 3;
+			document.getElementById( 'card.cvcName' ).innerHTML = "CVV";
+			document.getElementById( 'card.cvcWhatIs' ).innerHTML = "What is CVV?";
+			document.getElementById( 'card.cvcFrame' ).innerHTML = card_cvcinfo["visa"];
+		  } else if (selectedCardType == "mc" || selectedCardType == "maestrouk" || selectedCardType == "solo" || selectedCardType == "bijcard" || selectedCardType == "elo") {
+		  	cvcCodeElem.maxLength = 3;
+			document.getElementById( 'card.cvcName' ).innerHTML = "CVC";
+			document.getElementById( 'card.cvcWhatIs' ).innerHTML = "What is CVC?";
+			document.getElementById( 'card.cvcFrame' ).innerHTML = card_cvcinfo["mc"];
+		  } else if (selectedCardType == "maestro") {
+		  			  	cvcCodeElem.maxLength = 3;
+			document.getElementById( 'card.cvcName' ).innerHTML = "CVC <i></i>";
+			document.getElementById( 'card.cvcWhatIs' ).innerHTML = "What is CVC?";
+			document.getElementById( 'card.cvcFrame' ).innerHTML = card_cvcinfo["maestro"];
+		  } else {
+		   	cvcCodeElem.maxLength = 3;
+			document.getElementById( 'card.cvcName' ).innerHTML = "CVC";
+			document.getElementById( 'card.cvcWhatIs' ).innerHTML = "What is CVC?";
+			document.getElementById( 'card.cvcFrame' ).innerHTML = card_cvcinfo[groupName];
+		  }  
+		}
+	}
+	
+	
+	function card_ccNumberPresentation(valid, groupName, dontHideErrorFrame){
+		// groupName is not used anymore
+		var errors = new Array();
+		errors.push( 'card.cardNumber' );
+		if(valid){
+			clearErrors(errors, dontHideErrorFrame);
+		}
+		else{
+			markErrorFields(errors);
+		}
+	}
+	
+	function card_doCCCheck(groupName){
+		// groupName is not used anymore
+		var cardNumberField = document.getElementById( 'card.cardNumber' );
+		if(card_isCardNumberValid(cardNumberField)) {
+			card_ccNumberPresentation(true,groupName);
+		} else {
+			card_ccNumberPresentation(false,groupName);
+		}
+	}
+		
+	function card_isCardNumberValid(cardNumberField){
+		cardNumber = cardNumberField.value;
+		reg = /\s+/g;
+		cardNumber = cardNumber.replace(reg,'');
+		if(cardNumber == "" || luhnCheck(cardNumber)){
+			return true;
+		}
+		return false;
+	}
+	
+	validationFunctions["card"] = new Array();
+	validationFunctions["card"][ "card.cardNumber" ] = card_isCardNumberValid;	
+
+
+
+//]]>
+</script>
+
+ 
+<table class="basetable">
+	
+
+	
+<tbody><tr id="card.cclogoTr">
+		<td class="mid">
+			<div id="card.cclogoheader" style="display: none">Card Type</div>
+					</td>
+		<td class="mid">
+		    <div style="height: 25px" id="card.cclogo">
+				  <img alt="" id="card.cclogo0" style="display: inline;" class="mid" src="/hpp//img/pm/amex_small.png">
+				  <img alt="" id="card.cclogo1" style="display: inline;" class="mid" src="/hpp//img/pm/mc_small.png">
+				  <img alt="" id="card.cclogo2" style="display: inline;" class="mid" src="/hpp//img/pm/visa_small.png">
+				  <img alt="" id="card.cclogo3" style="display: none" class="mid" src="./Step 1  Choose your Payment Method_files/unknown_small.png">
+				  <img alt="" id="card.cclogo4" style="display: none" class="mid" src="./Step 1  Choose your Payment Method_files/unknown_small.png">
+				  <img alt="" id="card.cclogo5" style="display: none" class="mid" src="./Step 1  Choose your Payment Method_files/unknown_small.png">
+				  <img alt="" id="card.cclogo6" style="display: none" class="mid" src="./Step 1  Choose your Payment Method_files/unknown_small.png">
+				  <img alt="" id="card.cclogo7" style="display: none" class="mid" src="./Step 1  Choose your Payment Method_files/unknown_small.png">
+				  <img alt="" id="card.cclogo8" style="display: none" class="mid" src="./Step 1  Choose your Payment Method_files/unknown_small.png">
+				  <script type="text/javascript">
+				  	card_setCardBrand(null, false, 'card', card_types, card_logos);
+				  </script>
+			</div>
+		</td>
+</tr>
+
+<tr id="card.cardNumberTr">
+        <td class="cardNumberTitle"><div>Card Number</div></td>
+        <td><div class="fieldDiv"><input type="text" class="inputField" id="card.cardNumber" onkeypress="return blockNonNumberEvents(event)" onkeyup="card_validateCcNumber(event, 'card', card_types, card_logos, card_subVariantExtras, card_subVariantExtrasPhrase)" onchange="card_validateCcNumber(event, 'card', card_types, card_logos, card_subVariantExtras, card_subVariantExtrasPhrase) ; card_doCCCheck('card')" name="card.cardNumber" value="" size="24" maxlength="23"></div></td>
+</tr>
+<tr>
+        <td><div>Card Holder Name</div></td>
+        <td><div class="fieldDiv">
+        	<input type="text" class="inputField" id="card.cardHolderName" name="card.cardHolderName" value="" size="19" maxlength="30">
+        </div></td>
+</tr>
+
+<tr>
+        <td><div>Card Expiry Date</div></td><td>
+        <div class="fieldDiv" id="card.expiryContainer">
+			<select class="inputField" name="card.expiryMonth" id="card.expiryMonth" size="1">
+        <option value="">&nbsp;</option>
+					<option value="01">01</option>
+					<option value="02">02</option>
+					<option value="03">03</option>
+					<option value="04">04</option>
+					<option value="05">05</option>
+					<option value="06">06</option>
+					<option value="07">07</option>
+					<option value="08">08</option>
+					<option value="09">09</option>
+					<option value="10">10</option>
+					<option value="11">11</option>
+					<option value="12">12</option>
+		        </select>
+        &nbsp;/&nbsp; 
+        <select class="inputField" name="card.expiryYear" id="card.expiryYear" size="1">
+        <option value="">&nbsp;</option>
+        			<option value="2013">2013</option>
+        			<option value="2014">2014</option>
+        			<option value="2015">2015</option>
+        			<option value="2016">2016</option>
+        			<option value="2017">2017</option>
+        			<option value="2018">2018</option>
+        			<option value="2019">2019</option>
+        			<option value="2020">2020</option>
+        			<option value="2021">2021</option>
+        			<option value="2022">2022</option>
+        			<option value="2023">2023</option>
+        			<option value="2024">2024</option>
+        			<option value="2025">2025</option>
+        			<option value="2026">2026</option>
+        			<option value="2027">2027</option>
+        		</select>
+        </div>
+        </td>
+</tr>
+
+<tr>
+		        <td><!--  brandCodeUndef --><div id="card.cvcName">CVC/CVV/CID <i></i></div></td>
+        <td><div class="fieldDiv"><input class="inputField" type="text" name="card.cvcCode" value="" id="card.cvcCode" size="7" maxlength="3"> &nbsp; 
+        <a href="https://test.adyen.com/hpp/pay.shtml#" onclick="return toggleElement( 'card.cvcFrame' );">
+        <span id="card.cvcWhatIs">What is CVC/CVV/CID?</span></a></div></td>
+</tr>
+
+											
+
+
+	<tr>
+    	<td colspan="2"><div class="r">
+                            <input class="paySubmit paySubmitcard" type="submit" name="pay" value="pay">
+            		</div></td>
+    </tr>
+</tbody></table>
+
+<div class="popupMsg  popupMsgOPP " style="display: none;" onclick="return hideElement( 'card.cvcFrame' );" id="card.cvcFrame">
+	<h3>What is CVC/CVV/CID?</h3>
+	<p>The Card Security Code (CVC/CVV/CID) is an <i>additional</i>
+					three or four digit security code that is printed (not embossed) on the front or the back
+				of your card.</p>
+		<p>The CVC/CVV/CID is an extra security measure to ensure that you are in possession of the card.</p>
+		<p></p></div>
+
+
+<script type="text/javascript">
+//<![CDATA[
+	if(document.getElementById( "card.cardNumber" ).value.length > 0) {
+		var validateCcNumberTimer = setTimeout("card_validateCcNumber(null, 'card', card_types, card_logos, card_subVariantExtras, card_subVariantExtrasPhrase, true)", 2500);
+	}
+//]]>
+</script>
+
 						</div>
-						<div id="footerb1div">
-							<input onclick="" type="submit" id="mainSubmit" value="continue" class="footerB nextB" />
-						</div>
-						<div id="footerb2div">
-							<input onclick="" type="button" id="mainBack" value="previous" class="footerB backB" /> 
-						</div>
-					</div> 
-				</div>
-			</form>
-			<!-- ### inc/cfooter_[locale].txt or inc/cfooter.txt (fallback) ### -->
-			{{>cfooter}}
-		</body>
+</li>
+	
+	
+</ul>
+
+
+	<div id="errorFrame" style="display: none;" class="popupMsg errorFrame">
+		<div id="errorFrameValidationErrors">
+		</div>
+	</div>
+	<div id="okFrame" style="display: none;" class="popupMsg okFrame">
+	<div id="okFrameMessages">
+	</div>
+</div>
+
+
+
+<input type="text" style="display: none">
+ <input type="hidden" name="sig" value="tccjh2CcwqPxJrFnkHxoQXhN7WY="> 
+ <input type="hidden" name="merchantReference" value="SKINTEST-1382983733693"> 	
+ <input type="hidden" name="brandCode" value="brandCodeUndef"> 
+ <input type="hidden" name="paymentAmount" value="199"> 
+ <input type="hidden" name="currencyCode" value="EUR"> 
+ <input type="hidden" name="shipBeforeDate" value="2013-11-03"> 	
+ <input type="hidden" name="skinCode" value="Uikie8ax"> 
+ <input type="hidden" name="merchantAccount" value="DHPOSDev"> 
+ <input type="hidden" name="shopperLocale" value="en_GB"> 
+ <input type="hidden" name="stage" value="pay"> 	
+ <input type="hidden" name="sessionId" value="OXwC7tbMZ5rqLRBR0/SoVw2nJzM="> 
+
+
+ <input type="hidden" name="sessionValidity" value="2013-10-28T18:38:59Z"> 
+
+
+
+ <input type="hidden" name="countryCode" value=""> 
+	
+
+
+
+
+	
+
+
+
+
+
+
+ <input type="hidden" name="originalSession" value="H4sIAAAAAAAAAG2SXU/CMBSG/0uvGTAWdFviBV/xC9RsQIwhMaU9sIaund1BnMb/biswjHrRm/ecPu952/NBllKzDfAJYKZ5SWK1lbJBtOFghhTpUWBbY0CxaqA5kJiMZglpkBwMy6jCBHBr1M/2pZBSqHWPcwNlOa0KOFaEEpgiXTtKQStLKTNdFGASWIGzqDtP9LpA0tvru+konXp+EHaiMDgPgrMocJCNUIfZZmIjIKRvJ/Qop0IesQfNzoCQg8Lfdj3G9NbJZHj1cJ8O4fUbJIo+rLQBm9KZdNp+4Pm+13bmNocj9fL9RT+Kapuf0Y0LYsDMkrElZIhFGS9aixajHkKJTcorUE2mcyftj4u1aLnqwaNZZpjLU7SxZlS6gUA9X/adbt9baDWnUnCBVT1q2+uEUz+MgzDuRk+2kYMUr2Cqf/6ISql3f3bi+ECpWFvq/eNucI7LyVPXvIyTftJetFI933XUzfvkwuL1alUCnqK7BbIbMdAKDWWHwucXnA6J04ACAAA="> 	
+								
+								
+											
+
+	
+	
+
+	<input type="hidden" name="referrerURL" value="https://ca-test.adyen.com/ca/ca/skin/testpayment.shtml">
+
+
+	<input type="hidden" name="usingFrame" id="usingFrame" value="false">
+	<input type="hidden" name="usingPopUp" id="usingPopUp" value="false">
+	<script type="text/javascript">
+		//<![CDATA[
+		try {
+    		var uf = _.G("usingFrame");
+    		if(uf && uf.value != "") {
+    			uf.value = ( top.location != self.location );
+    		}
+    		var up = _.G("usingPopUp");
+    		if(up && up.value != "") {
+    			up.value = ( window.name == "myPopUp" );
+    		}
+		} catch(e){ }
+		//]]>
+	</script>
+    <div class="paddiv2"></div>
+	{{>pmfooter}}
+				
+		<div id="foot">
+	<div id="footc">
+	  <div id="nextstep">
+		<div id="nextstepc">Next Step: Enter your Payment Details</div>
+	  </div>
+	  <div id="footerb2div">
+	  	  </div>
+	  <div id="footerb1div">
+	  		   <input onclick="this.blur(); prepareForBack();" name="back" id="mainBack" value="previous" type="submit" class="hideforprint footerB backB">
+		  	  	  </div>
+	</div>
+  </div>
+    </form>
+	<!-- ### inc/cfooter_[locale].txt or inc/cfooter.txt (fallback) ### -->
+	{{>cfooter}}
+</body>
 </html>
