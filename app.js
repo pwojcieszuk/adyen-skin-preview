@@ -31,14 +31,16 @@ app.use(express.static(path.join(__dirname, 'default')));
 *   not very bulletproof
 */
 var getPartialsFromDir = function (dirpath) {
-	fs.readdirSync(dirpath).forEach(function (file) {
-	    var source = fs.readFileSync(path.join(dirpath, file), "utf8");
-	    var regex = /(.+)\.txt/;
-	    if (regex.exec(file)) {
-	    	partial = regex.exec(file).pop();
-	    	Handlebars.registerPartial(partial, source);
-	    }
-	});
+	if (fs.statSync(dirpath).isDirectory()) {
+		fs.readdirSync(dirpath).forEach(function (file) {
+		    var source = fs.readFileSync(path.join(dirpath, file), "utf8");
+		    var regex = /(.+)\.txt/;
+		    if (regex.exec(file)) {
+		    	partial = regex.exec(file).pop();
+		    	Handlebars.registerPartial(partial, source);
+		    }
+		});
+	}
 };
 
 // Register partials
